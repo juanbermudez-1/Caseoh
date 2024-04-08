@@ -5,11 +5,10 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] float bulletSpeed;
-    [SerializeField] int enemyLayer; 
     private void Start()
     {
         Debug.Log(this.transform.rotation.z);
-        Destroy(this.gameObject, 3);
+        Destroy(this.gameObject, 2);
     }
     // Update is called once per frame
     void Update()
@@ -18,14 +17,14 @@ public class Bullet : MonoBehaviour
         float speed = bulletSpeed * Time.deltaTime;
         this.transform.position += new Vector3(Mathf.Cos(zRot),Mathf.Sin(zRot),0).normalized*speed;
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.collider.gameObject.layer == 8)
+        if(collision.gameObject.layer == 8)
         {
             Destroy(collision.gameObject);
             Destroy(this.gameObject);
         }
-        else if(collision.collider.gameObject.layer == 7)
+        else if(collision.gameObject.layer ==10)
         {
             Destroy(this.gameObject);
         }
