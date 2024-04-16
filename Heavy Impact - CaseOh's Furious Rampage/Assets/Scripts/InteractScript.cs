@@ -6,6 +6,7 @@ public class InteractScript : MonoBehaviour
 {
     [SerializeField] GameObject player;
     [SerializeField] Animator animator;
+    private bool nearby;
 
     // Update is called once per frame
     void Update()
@@ -18,16 +19,25 @@ public class InteractScript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == 9)
-            animator.SetBool("Near", true);
+        {
+            nearby = true;
+            animator.SetBool("Near", nearby);
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.layer == 9)
-            animator.SetBool("Near", false);
+        {
+            nearby = false;
+            animator.SetBool("Near", nearby);
+        }
 
     }
     private void Interact()
     {
+        if (!nearby)
+            return;
         animator.SetTrigger("Interact");
+        ChangeGuns.Instance.SwitchGuns(Random.Range(0,2));
     }
 }

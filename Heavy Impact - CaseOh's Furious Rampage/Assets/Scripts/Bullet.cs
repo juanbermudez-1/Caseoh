@@ -17,14 +17,15 @@ public class Bullet : MonoBehaviour
         float speed = bulletSpeed * Time.deltaTime;
         this.transform.position += new Vector3(Mathf.Cos(zRot),Mathf.Sin(zRot),0).normalized*speed;
     }
-    void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == 8)
+        Debug.Log("hoorah!");
+        if (collision.gameObject.layer == 8)
         {
             Destroy(collision.gameObject);
             Destroy(this.gameObject);
         }
-        else if(collision.gameObject.layer ==10)
+        if (collision.gameObject.layer == 10)
         {
             Destroy(this.gameObject);
         }
