@@ -130,8 +130,13 @@ public class CaseohMove : MonoBehaviour
     }
     private void GroundSlam()
     {
-        /*Collider2D[] gay = new Collider2D[10];
-        ContactFilter2D yes = new ContactFilter2D(8);
-        Physics2D.OverlapCollider(slamCollider,8,gay);*/
+        Collider2D[] gay = new Collider2D[0];
+        ContactFilter2D yes = new ContactFilter2D();
+        yes.SetLayerMask(8);
+        Physics2D.OverlapCollider(slamCollider,yes,gay);
+        foreach(Collider2D a in gay)
+        {
+            GameObject.Destroy(a.gameObject);
+        }
     }
 }
