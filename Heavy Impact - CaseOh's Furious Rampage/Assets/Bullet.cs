@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     private int thisHealth;
     private void Start()
     {
+        thisHealth = 3;
         Debug.Log(this.transform.rotation.z);
         Destroy(this.gameObject, 3);
     }
@@ -17,13 +18,18 @@ public class Bullet : MonoBehaviour
         float zRot = (this.transform.rotation.eulerAngles.z+90)*Mathf.PI/180;
         float speed = bulletSpeed * Time.deltaTime;
         this.transform.position += new Vector3(Mathf.Cos(zRot),Mathf.Sin(zRot),0).normalized*speed;
+        if (thisHealth <= 0) Destroy(this.gameObject);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.collider.gameObject.layer == 8)
         {
             Destroy(collision.gameObject);
-            Destroy(this.gameObject);
+            if (Gun.gunMode == 2)
+            {
+                --thisHealth;
+            }
+            else Destroy(this.gameObject);
         }
         if (collision.gameObject.layer == 7)
         {
