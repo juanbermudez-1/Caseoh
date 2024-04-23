@@ -27,6 +27,7 @@ public class CaseohMove : MonoBehaviour
     void Start()
     {
         Instance = this.GetComponent<CaseohMove>();
+
         keycodeArray = new KeyCode[keycodes.Count];
         for (int i = 0;i<=keycodeArray.Length ;i++ )
         {
