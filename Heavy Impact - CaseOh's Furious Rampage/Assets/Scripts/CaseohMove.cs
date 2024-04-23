@@ -6,24 +6,28 @@ using UnityEngine.UI;
 public class CaseohMove : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] public Rigidbody2D rb;
     [SerializeField] private GameObject gun, bullet, dashParticles;
     [SerializeField] private float cameraSmoothTime, dashAmount, moveSpeed, rollSpeed, momentumFalloff;
     [SerializeField] private Camera myCamera;
     [SerializeField] private Slider dashSlider;
     [SerializeField] private Animator securityAnim;
     [SerializeField] private TrailRenderer dashLine;
+    [SerializeField] private Collider2D slamCollider;
     private bool dashCD = false;
     private bool isRolling = false;
-    private Vector2 momentum = Vector3.zero;
-    private float lateVelocityMag;
+    //public Vector2 momentum = Vector3.zero;
+    //private float lateVelocityMag;
     List<KeyCode> keycodes = new List<KeyCode>
     {
-        KeyCode.W,KeyCode.A,KeyCode.S, KeyCode.D
+        KeyCode.W,KeyCode.A,KeyCode.S, KeyCode.D,KeyCode.UpArrow,KeyCode.LeftArrow,KeyCode.RightArrow,KeyCode.DownArrow
     };
     private KeyCode[] keycodeArray;
+    public static CaseohMove Instance;
     void Start()
     {
+        Instance = this.GetComponent<CaseohMove>();
+
         keycodeArray = new KeyCode[keycodes.Count];
         for (int i = 0;i<=keycodeArray.Length ;i++ )
         {
@@ -45,24 +49,31 @@ public class CaseohMove : MonoBehaviour
     }
     private void Move()
     {
+        
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
         Vector2 direction = (moveX * Vector3.right) + (moveY * Vector3.up);
-        momentum = (rb.velocity.magnitude-lateVelocityMag)*(rb.velocity.normalized/2+(direction.normalized/2));
-        if (Input.GetKey(KeyCode.LeftShift))
+        //Vector2 directionN = direction / (Mathf.Abs(direction.x) + Mathf.Abs(direction.y));
+        /*momentum = (rb.velocity.magnitude-lateVelocityMag)*((rb.velocity.normalized/2)+(direction.normalized/2));
+        momentum = Vector3.Lerp(momentum, Vector3.zero, 1 - Mathf.Pow(momentumFalloff, Time.deltaTime));
+        if (double.IsNaN(momentum.x) || double.IsNaN(momentum.y))
+            momentum = Vector2.zero;*/
+        if (Input.GetKey(KeyCode.LeftShift) && direction.magnitude > 0.1f)
         {
-            rb.AddForce((direction * rollSpeed * Time.deltaTime * 100) + momentum);
+            rb.AddForce(direction.normalized  * rollSpeed * Time.deltaTime);
             isRolling = true;
         }
-        else
+        else if (direction.magnitude > 0.1f)
         {
-            rb.velocity = direction * moveSpeed * Time.deltaTime * 15 + (momentum);
+            //rb.velocity = (direction.normalized * moveSpeed+momentum * Time.deltaTime);
+            Vector3 moveVector = direction.normalized * moveSpeed * Time.deltaTime;
+            this.transform.position += moveVector;
             isRolling = false;
         }
+        //else rb.velocity = momentum;
         if (Input.GetKeyDown(KeyCode.Space)&&!isRolling)
-            Dash(direction);
-        momentum = Vector3.Lerp(momentum, Vector3.zero,1- Mathf.Pow(momentumFalloff,Time.deltaTime));
-        lateVelocityMag = rb.velocity.magnitude-momentum.magnitude;
+            Dash(direction.normalized);
+        //lateVelocityMag = rb.velocity.magnitude-momentum.magnitude;
         Animate();
     }
     private void Gun()
@@ -85,7 +96,7 @@ public class CaseohMove : MonoBehaviour
     {
         if (!dashCD)
         {
-            momentum += direction * dashAmount;
+            rb.velocity += direction * dashAmount;
             StartCoroutine(DashCD());
             GameObject dashParticles1 = Instantiate(dashParticles, this.transform.position, this.transform.rotation);
             Destroy(dashParticles1, 1);
@@ -110,9 +121,23 @@ public class CaseohMove : MonoBehaviour
         securityAnim.SetFloat("DirectionX", moveX);
         securityAnim.SetFloat("DirectionY", moveY);
         securityAnim.SetFloat("DirectionMag", directionRaw.magnitude);
-        for(int i = 0; i < keycodeArray.Length; i++)
+        if(Input.GetKeyDown(KeyCode.LeftShift))securityAnim.SetTrigger("IsRolling");
+        securityAnim.SetBool("IsRollingBool",isRolling);
+
+        for (int i = 0; i < keycodeArray.Length; i++)
         {
             if (Input.GetKeyDown(keycodeArray[i])|| Input.GetKeyUp(keycodeArray[i])) securityAnim.SetTrigger("DirectionChanged");
+        }
+    }
+    private void GroundSlam()
+    {
+        Collider2D[] gay = new Collider2D[0];
+        ContactFilter2D yes = new ContactFilter2D();
+        yes.SetLayerMask(8);
+        Physics2D.OverlapCollider(slamCollider,yes,gay);
+        foreach(Collider2D a in gay)
+        {
+            GameObject.Destroy(a.gameObject);
         }
     }
 }
