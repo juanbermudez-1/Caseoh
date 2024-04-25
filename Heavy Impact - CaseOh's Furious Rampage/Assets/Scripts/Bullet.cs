@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] float bulletSpeed;
-    [SerializeField] int enemyLayer; 
+    private int thisHealth;
     private void Start()
     {
         Debug.Log(this.transform.rotation.z);
@@ -18,15 +18,14 @@ public class Bullet : MonoBehaviour
         float speed = bulletSpeed * Time.deltaTime;
         this.transform.position += new Vector3(Mathf.Cos(zRot),Mathf.Sin(zRot),0).normalized*speed;
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.collider.gameObject.layer == 8)
+        if(collision.gameObject.layer == 8)
         {
             Destroy(collision.gameObject);
             Destroy(this.gameObject);
         }
-        else if(collision.collider.gameObject.layer == 7)
-        {
+        if (collision.gameObject.layer == 7)        {
             Destroy(this.gameObject);
         }
     }
