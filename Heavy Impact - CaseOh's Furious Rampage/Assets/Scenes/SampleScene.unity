@@ -308,8 +308,6 @@ Transform:
   - {fileID: 1311261401}
   m_Father: {fileID: 871846472}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!114 &367104642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -772,12 +770,6 @@ MonoBehaviour:
   gun: {fileID: 367104640}
   bullet: {fileID: 2921043254177424200, guid: 5090c9e1d24853a4cb549395ee7efed5, type: 3}
   cameraSmoothTime: 0.1
-<<<<<<< Updated upstream
-  dashAmount: 7
-  moveSpeed: 5
-  rollSpeed: 5
-  myCamera: {fileID: 295574272}
-=======
   dashAmount: 4
   moveSpeed: 2
   rollSpeed: 500
@@ -787,7 +779,6 @@ MonoBehaviour:
   securityAnim: {fileID: 871846475}
   dashLine: {fileID: 1771972314}
   slamCollider: {fileID: 0}
->>>>>>> Stashed changes
 --- !u!58 &871846470
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -864,11 +855,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-<<<<<<< Updated upstream
-  m_Sprite: {fileID: 21300000, guid: 68dd6ed5751579140a39bec6815c10a1, type: 3}
-=======
   m_Sprite: {fileID: -1001420687, guid: dd5b93fe79828bd4a9b30c47508abef8, type: 3}
->>>>>>> Stashed changes
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -893,12 +880,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 367104641}
-<<<<<<< Updated upstream
-=======
   - {fileID: 1771972313}
   - {fileID: 1972033995}
   - {fileID: 480784807}
->>>>>>> Stashed changes
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &871846473
@@ -914,8 +898,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthText: {fileID: 531838836}
-<<<<<<< Updated upstream
-=======
 --- !u!114 &871846474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1014,11 +996,7 @@ GameObject:
   - component: {fileID: 1305069039}
   - component: {fileID: 1305069041}
   - component: {fileID: 1305069042}
-<<<<<<< Updated upstream
-  m_Layer: 0
-=======
   m_Layer: 7
->>>>>>> Stashed changes
   m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28395,8 +28373,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!1 &1445720860
 GameObject:
   m_ObjectHideFlags: 0
@@ -28855,7 +28831,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1860536910}
   m_CullTransparentMesh: 1
->>>>>>> Stashed changes
 --- !u!1 &1880583397
 GameObject:
   m_ObjectHideFlags: 0
@@ -28945,11 +28920,8 @@ GameObject:
   - component: {fileID: 1957380884}
   - component: {fileID: 1957380887}
   - component: {fileID: 1957380888}
-<<<<<<< Updated upstream
-=======
   - component: {fileID: 1957380890}
   - component: {fileID: 1957380889}
->>>>>>> Stashed changes
   m_Layer: 7
   m_Name: Map
   m_TagString: Untagged
@@ -36561,11 +36533,6 @@ TilemapCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-<<<<<<< Updated upstream
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0
-  m_UseDelaunayMesh: 0
-=======
   m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0.2
@@ -37206,7 +37173,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
->>>>>>> Stashed changes
 --- !u!1 &2058041600
 GameObject:
   m_ObjectHideFlags: 0
@@ -37256,8 +37222,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!1 &2083710506
 GameObject:
   m_ObjectHideFlags: 0
@@ -98049,7 +98013,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 188d14ea5fd4544459a55960f90b8794, type: 3}
->>>>>>> Stashed changes
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -98061,9 +98024,6 @@ SceneRoots:
   - {fileID: 1128446168}
   - {fileID: 543146262}
   - {fileID: 1382402324}
-<<<<<<< Updated upstream
-=======
   - {fileID: 7184786958688576328}
   - {fileID: 864507292}
   - {fileID: 1811003414}
->>>>>>> Stashed changes
