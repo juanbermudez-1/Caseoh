@@ -20,12 +20,13 @@ public class Bullet : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == 8)
+        if(collision.collider.gameObject.layer == 8)
         {
             Destroy(collision.gameObject);
             Destroy(this.gameObject);
         }
-        if (collision.gameObject.layer == 7)        {
+        if (collision.gameObject.layer == 7)
+        {
             Destroy(this.gameObject);
         }
     }
