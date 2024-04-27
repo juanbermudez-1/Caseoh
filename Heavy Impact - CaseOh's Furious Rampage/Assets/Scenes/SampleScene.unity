@@ -769,19 +769,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
-  gun: {fileID: 0}
+  gun: {fileID: 367104640}
   bullet: {fileID: 0}
-  dashParticles: {fileID: 0}
+  dashParticles: {fileID: 7184786958688576329}
   cameraSmoothTime: 0
   dashAmount: 0
   moveSpeed: 0
   rollSpeed: 0
   momentumFalloff: 0
-  myCamera: {fileID: 0}
+  myCamera: {fileID: 295574272}
   dashSlider: {fileID: 0}
-  securityAnim: {fileID: 0}
-  dashLine: {fileID: 0}
-  slamCollider: {fileID: 0}
+  securityAnim: {fileID: 871846475}
+  dashLine: {fileID: 1771972314}
+  slamCollider: {fileID: 480784808}
 --- !u!58 &871846470
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -101263,6 +101263,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 441e67a4721e749f0bca9581956f2729, type: 3}
+--- !u!1 &7184786958688576329 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 441e67a4721e749f0bca9581956f2729, type: 3}
+  m_PrefabInstance: {fileID: 7184786958688576328}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
