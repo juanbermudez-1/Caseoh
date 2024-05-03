@@ -194,11 +194,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-<<<<<<< Updated upstream:Heavy Impact - CaseOh's Furious Rampage/Assets/alien.prefab
-  m_Radius: 1.1649998
-=======
   m_Radius: 0.45
->>>>>>> Stashed changes:Heavy Impact - CaseOh's Furious Rampage/Assets/Prefabs/british.prefab
 --- !u!114 &8696852233835937487
 MonoBehaviour:
   m_ObjectHideFlags: 0
