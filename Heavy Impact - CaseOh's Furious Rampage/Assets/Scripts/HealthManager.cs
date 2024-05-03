@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 public class HealthManager : MonoBehaviour
 {
     private float health = 5;
@@ -12,7 +12,10 @@ public class HealthManager : MonoBehaviour
     {
         healthText.text = health.ToString();
         if (health <= 0)
+        {
             this.gameObject.SetActive(false);
+            SceneManager.LoadScene("SampleScene");
+        }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

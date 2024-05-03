@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Heavy Impact - CaseOh's Furious Rampage/Assets/Scripts/ChangeGuns.cs.meta
 guid: 0c0c1ee822e761c42964da6768d8f724
+========
+guid: 73e704a0b3b029643b987ffd3c887646
+>>>>>>>> main:Heavy Impact - CaseOh's Furious Rampage/Assets/Scripts/Enemy.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
