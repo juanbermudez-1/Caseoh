@@ -92,11 +92,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-<<<<<<< Updated upstream:Heavy Impact - CaseOh's Furious Rampage/Assets/Bullet.prefab
   m_Size: {x: 0.45, y: 0.55}
-=======
-  m_Size: {x: 0.45, y: 0.28}
->>>>>>> Stashed changes:Heavy Impact - CaseOh's Furious Rampage/Assets/Prefabs/Bullet.prefab
   m_EdgeRadius: 0
 --- !u!50 &8853106022917791588
 Rigidbody2D:
