@@ -16,6 +16,11 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*gun.GetComponent<SpriteRenderer>().enabled = CaseohMove.Instance.isRolling;
+        if(CaseohMove.Instance.isRolling)
+        {
+            return;
+        }*/
         gunSlider.maxValue = shootCD;
         Vector2 direction1 = myCamera.ScreenToWorldPoint(Input.mousePosition) - this.transform.position;
         gun.transform.up = direction1;

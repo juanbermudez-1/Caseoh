@@ -15,7 +15,7 @@ public class CaseohMove : MonoBehaviour
     [SerializeField] private TrailRenderer dashLine;
     [SerializeField] private Collider2D slamCollider;
     private bool dashCD = false;
-    private bool isRolling = false;
+    public bool isRolling = false;
     //public Vector2 momentum = Vector3.zero;
     //private float lateVelocityMag;
     List<KeyCode> keycodes = new List<KeyCode>
@@ -52,6 +52,7 @@ public class CaseohMove : MonoBehaviour
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
         Vector2 direction = (moveX * Vector3.right) + (moveY * Vector3.up);
+        Vector3 moveVector = direction.normalized * moveSpeed * Time.deltaTime;
         //Vector2 directionN = direction / (Mathf.Abs(direction.x) + Mathf.Abs(direction.y));
         /*momentum = (rb.velocity.magnitude-lateVelocityMag)*((rb.velocity.normalized/2)+(direction.normalized/2));
         momentum = Vector3.Lerp(momentum, Vector3.zero, 1 - Mathf.Pow(momentumFalloff, Time.deltaTime));
@@ -60,18 +61,20 @@ public class CaseohMove : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && direction.magnitude > 0.1f)
         {
             rb.AddForce(direction.normalized  * rollSpeed * Time.deltaTime);
+            //rb.velocity += (moveVector.magnitude - rb.velocity.magnitude)*direction.normalized;
             isRolling = true;
         }
         else if (direction.magnitude > 0.1f)
         {
             //rb.velocity = (direction.normalized * moveSpeed+momentum * Time.deltaTime);
-            Vector3 moveVector = direction.normalized * moveSpeed * Time.deltaTime;
             this.transform.position += moveVector;
             isRolling = false;
         }
         //else rb.velocity = momentum;
         if (Input.GetKeyDown(KeyCode.Space)&&!isRolling)
             Dash(direction.normalized);
+        if (Input.GetKeyDown(KeyCode.Q) && !isRolling)
+            GroundSlam();
         //lateVelocityMag = rb.velocity.magnitude-momentum.magnitude;
         Animate();
     }
@@ -95,7 +98,7 @@ public class CaseohMove : MonoBehaviour
     {
         if (!dashCD)
         {
-            rb.velocity += direction * dashAmount;
+            rb.velocity = direction.normalized * (dashAmount+rb.velocity.magnitude);
             StartCoroutine(DashCD());
             GameObject dashParticles1 = Instantiate(dashParticles, this.transform.position, this.transform.rotation);
             Destroy(dashParticles1, 1);
@@ -130,8 +133,10 @@ public class CaseohMove : MonoBehaviour
     }
     private void GroundSlam()
     {
-        /*Collider2D[] gay = new Collider2D[10];
-        ContactFilter2D yes = new ContactFilter2D(8);
-        Physics2D.OverlapCollider(slamCollider,8,gay);*/
+        Collider2D[] hit = Physics2D.OverlapCircleAll(this.transform.position,3,8);
+        foreach(Collider2D a in hit)
+        {
+            Debug.Log("gSlamHit");
+        }
     }
 }
