@@ -5,7 +5,7 @@ using UnityEngine;
 public class ChangeGuns : MonoBehaviour
 {
     [SerializeField] private Sprite bananaShotgun, bananaGun, bananaSniper;
-    [SerializeField] private SpriteRenderer playerSR;
+    [SerializeField] private SpriteRenderer gunSR;
     [SerializeField] private Transform gun;
     public static ChangeGuns Instance;
     private void Start()
@@ -19,22 +19,22 @@ public class ChangeGuns : MonoBehaviour
         {
             case 0:
                 {
-                    playerSR.sprite = bananaGun;
-                    playerSR.transform.rotation = Quaternion.Euler(0, 0, 66 + gun.rotation.eulerAngles.z);
+                    gunSR.sprite = bananaGun;
+                    gunSR.transform.rotation = Quaternion.Euler(0, 0, 90 + gun.rotation.eulerAngles.z);
                     break;
                 }
                 
             case 1:
                 {
-                    playerSR.sprite = bananaShotgun;
-                    playerSR.transform.rotation = Quaternion.Euler(0, 0, 180 + gun.rotation.eulerAngles.z);
+                    gunSR.sprite = bananaShotgun;
+                    gunSR.transform.rotation = Quaternion.Euler(0, 0, 90 + gun.rotation.eulerAngles.z);
 
                     break;
                 }
             case 2:
                 {
-                    playerSR.sprite = bananaSniper;
-                    playerSR.transform.rotation = Quaternion.Euler(0, 0, 66 + gun.rotation.eulerAngles.z);
+                    gunSR.sprite = bananaSniper;
+                    gunSR.transform.rotation = Quaternion.Euler(0, 0, 90 + gun.rotation.eulerAngles.z);
                     break;
                 }
         }

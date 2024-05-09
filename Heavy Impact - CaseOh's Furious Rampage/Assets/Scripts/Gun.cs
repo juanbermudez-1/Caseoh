@@ -8,11 +8,16 @@ public class Gun : MonoBehaviour
     [SerializeField] private GameObject gun, bullet;
     [SerializeField] private Camera myCamera;
     [SerializeField] private Slider gunSlider;
-    [SerializeField] private float shotGunRecoil;
+    [SerializeField] private float shotGunRecoil,sniperRecoil;
+    [SerializeField] private SpriteRenderer gunSR;
     public static int gunMode;
     private bool shootTimeBool = true;
     private float shootCD = 1;
 
+    void Start()
+    {
+        gunMode = 0;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -24,6 +29,7 @@ public class Gun : MonoBehaviour
         gunSlider.maxValue = shootCD;
         Vector2 direction1 = myCamera.ScreenToWorldPoint(Input.mousePosition) - this.transform.position;
         gun.transform.up = direction1;
+        gunSR.flipY = this.transform.eulerAngles.z < 180;
         switch (gunMode)
         {
             case 0:
@@ -33,7 +39,7 @@ public class Gun : MonoBehaviour
                 Shotgun(direction1);
                 break;
             case 2:
-                Sniper();
+                Sniper(direction1);
                 break;
         }
         if (gunSlider.value <= shootCD)
@@ -70,11 +76,12 @@ public class Gun : MonoBehaviour
             }
         }
     }
-    void Sniper()
+    void Sniper(Vector2 direction)
     {
         shootCD = 1.5f;
         if (Input.GetMouseButtonDown(0)&&shootTimeBool)
         {
+            CaseohMove.Instance.rb.velocity -= direction.normalized * sniperRecoil;
             gunSlider.value = 0;
             GameObject bullet1 = bullet;
             Instantiate(bullet, gun.transform.position, gun.transform.rotation);

@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
     private int thisHealth;
     private void Start()
     {
-        thisHealth = 3;
+        thisHealth = 10;
         Debug.Log(this.transform.rotation.z);
         Destroy(this.gameObject, 3);
     }

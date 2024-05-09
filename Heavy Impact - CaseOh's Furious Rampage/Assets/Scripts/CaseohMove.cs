@@ -8,12 +8,12 @@ public class CaseohMove : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] public Rigidbody2D rb;
     [SerializeField] private GameObject gun, bullet, dashParticles;
-    [SerializeField] private float cameraSmoothTime, dashAmount, moveSpeed, rollSpeed, momentumFalloff;
+    [SerializeField] private float cameraSmoothTime, dashAmount, moveSpeed, rollSpeed, momentumFalloff,deceleration;
     [SerializeField] private Camera myCamera;
     [SerializeField] private Slider dashSlider;
     [SerializeField] private Animator securityAnim;
     [SerializeField] private TrailRenderer dashLine;
-    [SerializeField] private Collider2D slamCollider;
+    [SerializeField] private ParticleSystem rollSmoke;
     private bool dashCD = false;
     public bool isRolling = false;
     //public Vector2 momentum = Vector3.zero;
@@ -39,7 +39,6 @@ public class CaseohMove : MonoBehaviour
     void Update()
     {
         Move();
-        //Gun();
         CameraFollow();
         if (dashSlider.value <= 1)
         {
@@ -52,41 +51,23 @@ public class CaseohMove : MonoBehaviour
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
         Vector2 direction = (moveX * Vector3.right) + (moveY * Vector3.up);
-        Vector3 moveVector = direction.normalized * moveSpeed * Time.deltaTime;
-        //Vector2 directionN = direction / (Mathf.Abs(direction.x) + Mathf.Abs(direction.y));
-        /*momentum = (rb.velocity.magnitude-lateVelocityMag)*((rb.velocity.normalized/2)+(direction.normalized/2));
-        momentum = Vector3.Lerp(momentum, Vector3.zero, 1 - Mathf.Pow(momentumFalloff, Time.deltaTime));
-        if (double.IsNaN(momentum.x) || double.IsNaN(momentum.y))
-            momentum = Vector2.zero;*/
+        float acceleration = (moveSpeed/(rb.velocity.magnitude+0.2f))-1;
         if (Input.GetKey(KeyCode.LeftShift) && direction.magnitude > 0.1f)
         {
             rb.AddForce(direction.normalized  * rollSpeed * Time.deltaTime);
-            //rb.velocity += (moveVector.magnitude - rb.velocity.magnitude)*direction.normalized;
             isRolling = true;
         }
         else if (direction.magnitude > 0.1f)
         {
-            //rb.velocity = (direction.normalized * moveSpeed+momentum * Time.deltaTime);
-            this.transform.position += moveVector;
+            rb.AddForce(direction.normalized * acceleration * Time.deltaTime);
+            rb.velocity = rb.velocity.magnitude * direction.normalized;
             isRolling = false;
         }
-        //else rb.velocity = momentum;
-        if (Input.GetKeyDown(KeyCode.Space)&&!isRolling)
-            Dash(direction.normalized);
-        if (Input.GetKeyDown(KeyCode.Q) && !isRolling)
-            GroundSlam();
-        //lateVelocityMag = rb.velocity.magnitude-momentum.magnitude;
+        else if(!isRolling) rb.velocity -= rb.velocity/deceleration;
+        if (Input.GetKeyDown(KeyCode.Space)&&!isRolling) Dash(direction.normalized);
+        if (Input.GetKeyDown(KeyCode.Q) && !isRolling) GroundSlam();
+        RollingSmoke(direction);
         Animate();
-    }
-    private void Gun()
-    {
-        Vector2 direction1 = myCamera.ScreenToWorldPoint(Input.mousePosition) - this.transform.position;
-        gun.transform.up = direction1;
-        if (Input.GetMouseButtonDown(0))
-        {
-            GameObject bullet1 = bullet;
-            Instantiate(bullet, gun.transform.position, gun.transform.rotation);
-        }
     }
     private void CameraFollow()
     {
@@ -113,7 +94,6 @@ public class CaseohMove : MonoBehaviour
         yield return new WaitForSeconds(1);
         dashLine.emitting = false;
         dashCD = false;
-
     }
     private void Animate()
     {
@@ -134,9 +114,17 @@ public class CaseohMove : MonoBehaviour
     private void GroundSlam()
     {
         Collider2D[] hit = Physics2D.OverlapCircleAll(this.transform.position,3,8);
+        Debug.Log(hit);
         foreach(Collider2D a in hit)
         {
             Debug.Log("gSlamHit");
         }
+    }
+    private void RollingSmoke(Vector2 direction)
+    {
+        var emm = rollSmoke.emission;
+        emm.enabled = isRolling&&(rb.velocity+direction).magnitude<2;
+        var shape = rollSmoke.shape;
+        shape.rotation = new Vector3(0, 0, Mathf.Atan2(direction.x, -direction.y)*180/Mathf.PI);
     }
 }
