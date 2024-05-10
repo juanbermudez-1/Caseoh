@@ -14,11 +14,13 @@ public class HealthManager : MonoBehaviour
         healthText.text = health.ToString();
         if (health <= 0)
         {
-            this.gameObject.SetActive(false);
-            SceneManager.LoadScene("SampleScene");
+            CaseohMove.Instance.hiScoreObj.SetActive(true);
+            CaseohMove.Instance.enabled = false;
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            StartCoroutine(WaitForEnd());
         }
     }
-    private void OnCollisionStay2D(Collision2D collision)
+    public void OnCollisionStay2D(Collision2D collision)
     {
         if(collision.gameObject.layer == 8&&!invincibility)
         {
@@ -33,5 +35,11 @@ public class HealthManager : MonoBehaviour
         invincibility = true;
         yield return new WaitForSeconds(invFrames);
         invincibility = false;
+    }
+    IEnumerator WaitForEnd()
+    {
+        yield return new WaitForSeconds(2.5f);
+        SceneManager.LoadScene("SampleScene");
+
     }
 }

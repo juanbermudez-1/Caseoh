@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CaseohMove : MonoBehaviour
 {
@@ -14,8 +15,11 @@ public class CaseohMove : MonoBehaviour
     [SerializeField] private Animator securityAnim;
     [SerializeField] private TrailRenderer dashLine;
     [SerializeField] private ParticleSystem rollSmoke;
+    [SerializeField] private TextMeshProUGUI scoreText,hiScoreText;
     private bool dashCD = false;
     public bool isRolling = false;
+    public static float hiScore;
+    public GameObject hiScoreObj;
     //public Vector2 momentum = Vector3.zero;
     //private float lateVelocityMag;
     List<KeyCode> keycodes = new List<KeyCode>
@@ -26,6 +30,7 @@ public class CaseohMove : MonoBehaviour
     public static CaseohMove Instance;
     void Start()
     {
+        hiScoreObj.SetActive(false);
         Instance = this.GetComponent<CaseohMove>();
         keycodeArray = new KeyCode[keycodes.Count];
         for (int i = 0;i<=keycodeArray.Length ;i++ )
@@ -38,11 +43,17 @@ public class CaseohMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        scoreText.text = "Score: " + Mathf.RoundToInt(Time.timeSinceLevelLoad * 5).ToString();
+        hiScoreText.text = hiScore.ToString();
         Move();
         CameraFollow();
         if (dashSlider.value <= 1)
         {
             dashSlider.value += Time.deltaTime;
+        }
+        if (Time.timeSinceLevelLoad * 5 > hiScore)
+        {
+            hiScore = Time.timeSinceLevelLoad * 5;
         }
     }
     private void Move()

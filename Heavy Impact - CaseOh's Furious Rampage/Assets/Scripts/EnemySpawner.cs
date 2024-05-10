@@ -19,10 +19,12 @@ public class EnemySpawner : MonoBehaviour
     }
     IEnumerator EnemySpawn()
     {
+        float rand1 = Random.Range(0, 10);
         yield return new WaitForSeconds(spawnTime);
         
         GameObject alien1 = Instantiate(alien, GenerateVectorOutsideCamera(),Quaternion.identity);
-        alien1.GetComponent<AIDestinationSetter>().target = GameObject.Find("Caseoh").transform;
+        if(rand1>=1)alien1.GetComponent<AIDestinationSetter>().target = GameObject.Find("Caseoh").transform;
+        else alien1.GetComponent<AIDestinationSetter>().target = GameObject.Find("Vault").transform;
         StartCoroutine(EnemySpawn());
     }
     Vector3 GenerateVectorOutsideCamera()
