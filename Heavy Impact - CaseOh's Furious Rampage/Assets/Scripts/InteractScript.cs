@@ -38,6 +38,6 @@ public class InteractScript : MonoBehaviour
         if (!nearby)
             return;
         animator.SetTrigger("Interact");
-        ChangeGuns.Instance.SwitchGuns(Random.Range(0,2));
+        ChangeGuns.Instance.SwitchGuns(Random.Range(0,3));
     }
 }

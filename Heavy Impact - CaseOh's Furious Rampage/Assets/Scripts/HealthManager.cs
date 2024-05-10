@@ -5,30 +5,41 @@ using TMPro;
 using UnityEngine.SceneManagement;
 public class HealthManager : MonoBehaviour
 {
-    private float health = 5;
+    [SerializeField]private float health,damage,invFrames;
     private bool invincibility = false;
     [SerializeField]private TextMeshProUGUI healthText;
+    [SerializeField] private GameObject sparks;
     void Update()
     {
         healthText.text = health.ToString();
         if (health <= 0)
         {
-            this.gameObject.SetActive(false);
-            SceneManager.LoadScene("SampleScene");
+            CaseohMove.Instance.hiScoreObj.SetActive(true);
+            CaseohMove.Instance.enabled = false;
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            StartCoroutine(WaitForEnd());
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void OnCollisionStay2D(Collision2D collision)
     {
         if(collision.gameObject.layer == 8&&!invincibility)
         {
             StartCoroutine(InvincFrames());
-            --health;
+            health -= damage;
+            Vector2 collisionPoint = collision.GetContact(0).point;
+            Instantiate(sparks, collisionPoint,Quaternion.identity);
         }
     }
     IEnumerator InvincFrames()
     {
         invincibility = true;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(invFrames);
         invincibility = false;
+    }
+    IEnumerator WaitForEnd()
+    {
+        yield return new WaitForSeconds(2.5f);
+        SceneManager.LoadScene("SampleScene");
+
     }
 }

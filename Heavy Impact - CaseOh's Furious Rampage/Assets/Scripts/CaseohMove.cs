@@ -2,20 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CaseohMove : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] public Rigidbody2D rb;
     [SerializeField] private GameObject gun, bullet, dashParticles;
-    [SerializeField] private float cameraSmoothTime, dashAmount, moveSpeed, rollSpeed, momentumFalloff;
+    [SerializeField] private float cameraSmoothTime, dashAmount, moveSpeed, rollSpeed, momentumFalloff,deceleration;
     [SerializeField] private Camera myCamera;
     [SerializeField] private Slider dashSlider;
     [SerializeField] private Animator securityAnim;
     [SerializeField] private TrailRenderer dashLine;
-    [SerializeField] private Collider2D slamCollider;
+    [SerializeField] private ParticleSystem rollSmoke;
+    [SerializeField] private TextMeshProUGUI scoreText,hiScoreText;
     private bool dashCD = false;
-    private bool isRolling = false;
+    public bool isRolling = false;
+    public static float hiScore;
+    public GameObject hiScoreObj;
     //public Vector2 momentum = Vector3.zero;
     //private float lateVelocityMag;
     List<KeyCode> keycodes = new List<KeyCode>
@@ -26,8 +30,8 @@ public class CaseohMove : MonoBehaviour
     public static CaseohMove Instance;
     void Start()
     {
+        hiScoreObj.SetActive(false);
         Instance = this.GetComponent<CaseohMove>();
-
         keycodeArray = new KeyCode[keycodes.Count];
         for (int i = 0;i<=keycodeArray.Length ;i++ )
         {
@@ -39,12 +43,17 @@ public class CaseohMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        scoreText.text = "Score: " + Mathf.RoundToInt(Time.timeSinceLevelLoad * 5).ToString();
+        hiScoreText.text = hiScore.ToString();
         Move();
-        //Gun();
         CameraFollow();
         if (dashSlider.value <= 1)
         {
             dashSlider.value += Time.deltaTime;
+        }
+        if (Time.timeSinceLevelLoad * 5 > hiScore)
+        {
+            hiScore = Time.timeSinceLevelLoad * 5;
         }
     }
     private void Move()
@@ -53,11 +62,7 @@ public class CaseohMove : MonoBehaviour
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
         Vector2 direction = (moveX * Vector3.right) + (moveY * Vector3.up);
-        //Vector2 directionN = direction / (Mathf.Abs(direction.x) + Mathf.Abs(direction.y));
-        /*momentum = (rb.velocity.magnitude-lateVelocityMag)*((rb.velocity.normalized/2)+(direction.normalized/2));
-        momentum = Vector3.Lerp(momentum, Vector3.zero, 1 - Mathf.Pow(momentumFalloff, Time.deltaTime));
-        if (double.IsNaN(momentum.x) || double.IsNaN(momentum.y))
-            momentum = Vector2.zero;*/
+        float acceleration = (moveSpeed/(rb.velocity.magnitude+0.2f))-1;
         if (Input.GetKey(KeyCode.LeftShift) && direction.magnitude > 0.1f)
         {
             rb.AddForce(direction.normalized  * rollSpeed * Time.deltaTime);
@@ -65,26 +70,15 @@ public class CaseohMove : MonoBehaviour
         }
         else if (direction.magnitude > 0.1f)
         {
-            //rb.velocity = (direction.normalized * moveSpeed+momentum * Time.deltaTime);
-            Vector3 moveVector = direction.normalized * moveSpeed * Time.deltaTime;
-            this.transform.position += moveVector;
+            rb.AddForce(direction.normalized * acceleration * Time.deltaTime);
+            rb.velocity = rb.velocity.magnitude * direction.normalized;
             isRolling = false;
         }
-        //else rb.velocity = momentum;
-        if (Input.GetKeyDown(KeyCode.Space)&&!isRolling)
-            Dash(direction.normalized);
-        //lateVelocityMag = rb.velocity.magnitude-momentum.magnitude;
+        else if(!isRolling) rb.velocity -= rb.velocity/deceleration;
+        if (Input.GetKeyDown(KeyCode.Space)&&!isRolling) Dash(direction.normalized);
+        if (Input.GetKeyDown(KeyCode.Q) && !isRolling) GroundSlam();
+        RollingSmoke(direction);
         Animate();
-    }
-    private void Gun()
-    {
-        Vector2 direction1 = myCamera.ScreenToWorldPoint(Input.mousePosition) - this.transform.position;
-        gun.transform.up = direction1;
-        if (Input.GetMouseButtonDown(0))
-        {
-            GameObject bullet1 = bullet;
-            Instantiate(bullet, gun.transform.position, gun.transform.rotation);
-        }
     }
     private void CameraFollow()
     {
@@ -96,7 +90,7 @@ public class CaseohMove : MonoBehaviour
     {
         if (!dashCD)
         {
-            rb.velocity += direction * dashAmount;
+            rb.velocity = direction.normalized * (dashAmount+rb.velocity.magnitude);
             StartCoroutine(DashCD());
             GameObject dashParticles1 = Instantiate(dashParticles, this.transform.position, this.transform.rotation);
             Destroy(dashParticles1, 1);
@@ -111,7 +105,6 @@ public class CaseohMove : MonoBehaviour
         yield return new WaitForSeconds(1);
         dashLine.emitting = false;
         dashCD = false;
-
     }
     private void Animate()
     {
@@ -131,13 +124,18 @@ public class CaseohMove : MonoBehaviour
     }
     private void GroundSlam()
     {
-        Collider2D[] gay = new Collider2D[0];
-        ContactFilter2D yes = new ContactFilter2D();
-        yes.SetLayerMask(8);
-        Physics2D.OverlapCollider(slamCollider,yes,gay);
-        foreach(Collider2D a in gay)
+        Collider2D[] hit = Physics2D.OverlapCircleAll(this.transform.position,3,8);
+        Debug.Log(hit);
+        foreach(Collider2D a in hit)
         {
-            GameObject.Destroy(a.gameObject);
+            Debug.Log("gSlamHit");
         }
+    }
+    private void RollingSmoke(Vector2 direction)
+    {
+        var emm = rollSmoke.emission;
+        emm.enabled = isRolling&&(rb.velocity+direction).magnitude<2;
+        var shape = rollSmoke.shape;
+        shape.rotation = new Vector3(0, 0, Mathf.Atan2(direction.x, -direction.y)*180/Mathf.PI);
     }
 }

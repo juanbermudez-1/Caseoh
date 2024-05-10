@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4747688863470075545}
   - component: {fileID: 8853106022917791588}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: ShotgunBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8643566d673f8854892aab582a62f055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 25
+  bulletSpeed: 20
 --- !u!61 &4747688863470075545
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -145,13 +145,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3542011955903472457}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5681109381613698881}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3768787597795773425
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -193,12 +193,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -1272288725, guid: 2b21bc1559a3ea440a0c5df8952e2192, type: 3}
+  m_Sprite: {fileID: 1878297322, guid: 2b21bc1559a3ea440a0c5df8952e2192, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.024, y: 0.76}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
