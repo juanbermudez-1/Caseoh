@@ -26,8 +26,11 @@ public class HealthManager : MonoBehaviour
         {
             StartCoroutine(InvincFrames());
             health -= damage;
+            CaseohMove.hiScore -= 2;
             Vector2 collisionPoint = collision.GetContact(0).point;
-            Instantiate(sparks, collisionPoint,Quaternion.identity);
+            GameObject sparks1 = sparks;
+            Instantiate(sparks1, collisionPoint,Quaternion.identity);
+            Destroy(sparks1, 1);
         }
     }
     IEnumerator InvincFrames()

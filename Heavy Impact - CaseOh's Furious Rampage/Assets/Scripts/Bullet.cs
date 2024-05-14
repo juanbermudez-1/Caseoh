@@ -25,6 +25,7 @@ public class Bullet : MonoBehaviour
         if(collision.gameObject.layer == 8)
         {
             Destroy(collision.gameObject);
+            CaseohMove.hiScore += 2.5f;
             if (Gun.gunMode == 2)
             {
                 --thisHealth;
