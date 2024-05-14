@@ -53,7 +53,7 @@ public class CaseohMove : MonoBehaviour
         }
         if (Time.timeSinceLevelLoad * 5 > hiScore)
         {
-            hiScore = Time.timeSinceLevelLoad * 5;
+            hiScore = Time.timeSinceLevelLoad * 5+(hiScore-Time.timeSinceLevelLoad);
         }
     }
     private void Move()
